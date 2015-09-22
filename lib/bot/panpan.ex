@@ -54,15 +54,13 @@ defmodule Bot.Panpan do
 
   def respond(text, message, slack) do
     cond do
-      m = Regex.run(~r/^brain$/, text) ->
-        send_message("brain", message.channel, slack)
       m = Regex.run(~r/^set (.+?) (.+?)$/, text) ->
         [_, key, val] = m
         Brain.set(key, val)
         send_message("set: #{key} => #{val}", message.channel, slack)
       m = Regex.run(~r/^get (.+?)$/, text) ->
         [_, key] = m
-        res = Brain.get(key)
+        res = Brain.get(key, "nil")
         send_message("get: #{key} => #{res}", message.channel, slack)
       true -> nil
     end
