@@ -20,7 +20,8 @@ config :Stamp,
   term:     [""]
 
 config :Slack,
-  vim_icon: "https://dl.dropboxusercontent.com/u/14918307/slack_icon/vimgirl.jpg"
+  vim_icon:  "https://dl.dropboxusercontent.com/u/14918307/slack_icon/vimgirl.jpg",
+  kuma_icon: "https://dl.dropboxusercontent.com/u/14918307/slack_icon/kuma.png"
 
 config :Family,
   test: "test config"
