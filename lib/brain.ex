@@ -18,4 +18,10 @@ defmodule Brain do
       mod.set(key, value)
     end)
   end
+
+  #def keys do
+  #  Agent.get(__MODULE__, fn mod ->
+  #    mod.keys
+  #  end)
+  #end
 end

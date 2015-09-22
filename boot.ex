@@ -20,6 +20,6 @@ end
   IO.puts "#{mod}: ok"
 
   if production? do
-    Bot.incoming("#{mod} が起きたみたいですよ", "general", "天の声", Env.get("Slack_kuma_icon"))
+    Bot.incoming("#{mod} がパワーアップしたみたいですよ", "general", "天の声", Env.get("Slack_kuma_icon"))
   end
 end)

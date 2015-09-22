@@ -14,4 +14,10 @@ defmodule Brain.Memory do
       Dict.put(m, key, value)
     end)
   end
+
+  #def keys do
+  #  Agent.get(__MODULE__, fn m ->
+  #    Dict.keys(m)
+  #  end)
+  #end
 end

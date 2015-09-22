@@ -22,10 +22,9 @@ defmodule Brain.Redis do
     |> Exredis.query ["SET", key, value]
   end
 
-  def test do
-    __MODULE__
-    |> :global.whereis_name
-    |> IO.inspect
-
-  end
+  #def keys do
+  #  __MODULE__
+  #  |> :global.whereis_name
+  #  |> Exredis.query ["KEYS", "*"]
+  #end
 end
