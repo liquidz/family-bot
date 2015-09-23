@@ -3,7 +3,9 @@ use Mix.Config
 config :quantum,
   cron: [
     "0 10,13,16,19,22 * * *": {Vim.Version, :check_latest},
-    "30 7,12,18,20 * * *":    {Bot.Panpan, :memo_reminder}
+    "30 7,12,18,20 * * *":    {Bot.Panpan.Memo, :reminder},
+    "28 16 * * Sat": fn -> Bot.Panpan.reminder("青空レストランはじまるよ") end,
+    "58 18 * * Sun": fn -> Bot.Panpan.reminder("鉄腕DASHはじまるよ") end
   ],
   timezone: :local
 
