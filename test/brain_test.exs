@@ -1,10 +1,7 @@
 defmodule BrainTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
-  test "memory" do
-    Brain.Memory.start_link
-    Brain.init(Brain.Memory)
-
+  test "get and set" do
     assert Brain.get("foo", "default") == "default"
     Brain.set("foo", "bar")
     assert Brain.get("foo", "default") == "bar"

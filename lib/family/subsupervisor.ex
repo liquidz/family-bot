@@ -8,9 +8,12 @@ defmodule Family.SubSupervisor do
   def init(_) do
     children = Application.get_env(:Slack, :bots)
     |> Enum.map(fn mod ->
-      token = Env.get("#{mod}_api_token")
-      worker(Bot, [token, [mod]])
+      case Env.get("#{mod}_api_token") do
+        nil   -> nil
+        token -> worker(Bot, [token, [mod]])
+      end
     end)
+    |> Enum.reject(&(&1 == nil))
 
     supervise children, strategy: :one_for_one
   end

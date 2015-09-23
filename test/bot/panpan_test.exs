@@ -7,5 +7,4 @@ defmodule Bot.PanpanTest do
     res = Bot.Panpan.respond("ping", %{channel: "dummy"}, nil)
     assert res == "pong"
   end
-
 end
