@@ -1,27 +1,25 @@
 defmodule Brain do
-  def init(mod) do
-    case Agent.start(fn -> mod end, name: __MODULE__) do
-      {:error, {:already_started, pid}} ->
-        Agent.update(pid, fn _ -> mod end)
-      res -> res
-    end
+  use GenServer
+
+  def start_link(mod, arg \\ nil) do
+    {:ok, brain} = mod.start_link(arg)
+    GenServer.start_link(__MODULE__, brain, name: __MODULE__)
+  end
+
+  def handle_call(action, _from, brain) do
+    {:reply, GenServer.call(brain, action), brain}
+  end
+
+  def handle_cast(action, brain) do
+    GenServer.cast(brain, action)
+    {:noreply, brain}
   end
 
   def get(key, default) do
-    Agent.get(__MODULE__, fn mod ->
-      mod.get(key, default)
-    end)
+    GenServer.call(__MODULE__, {:get, key, default})
   end
 
-  def set(key, value) do
-    Agent.get(__MODULE__, fn mod ->
-      mod.set(key, value)
-    end)
+  def set(key, val) do
+    GenServer.cast(__MODULE__, {:set, key, val})
   end
-
-  #def keys do
-  #  Agent.get(__MODULE__, fn mod ->
-  #    mod.keys
-  #  end)
-  #end
 end

@@ -12,6 +12,18 @@ defmodule Bot do
 
   def handle_message(_, _, state), do: {:ok, state}
 
+  def handle_close(reason, slack, state) do
+    Bot.incoming("""
+    エラーが発生したぞ
+    ```
+    REASON: #{inspect reason}
+    STATE : #{inspect state}
+    ```
+    """ , "dev", "リーダー", Env.get("Slack_paiman_icon"))
+
+    {:error, state}
+  end
+
   def incoming(text, channel, user, icon) do
     url = Env.get("Slack_incoming_url")
     json = %{
@@ -23,6 +35,5 @@ defmodule Bot do
 
     HTTPoison.post(url, json)
     |> IO.inspect
-
   end
 end

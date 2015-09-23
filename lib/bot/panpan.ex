@@ -4,6 +4,11 @@ defmodule Bot.Panpan do
 
   @memo_key "memo"
 
+  def hear("rise_error", message, slack) do
+    Brain.get("hoge")
+    send_message("test", message.channel, slack)
+  end
+
   def hear("メモ", message, slack) do
     if message.text =~ ~r/(削除|消して)/ do
       data = @memo_key |> Brain.get("{}") |> Poison.decode!

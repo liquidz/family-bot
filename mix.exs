@@ -13,13 +13,15 @@ defmodule Family.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :tzdata, :slack, :quantum, :httpoison]]
+    [
+      applications: [:logger, :tzdata, :slack, :quantum, :httpoison],
+      mod:          {Family, []}
+    ]
   end
 
   def aliases do
     [
-      start:     "run --no-halt boot.ex prod",
-      start_dev: "run --no-halt boot.ex dev",
+      start: "run --no-halt"
     ]
   end
 

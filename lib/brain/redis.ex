@@ -1,30 +1,21 @@
 defmodule Brain.Redis do
+  use GenServer
+
   def start_link(uri \\ "redis://localhost:6379") do
-    case :global.whereis_name(__MODULE__) do
-      :undefined ->
-        pid = Exredis.start_using_connection_string(uri)
-        :global.register_name(__MODULE__, pid)
-        pid
-      pid -> pid
-    end
+    pid = Exredis.start_using_connection_string(uri)
+    GenServer.start_link(__MODULE__, pid, name: __MODULE__)
   end
 
-  def get(key, default) do
-    case __MODULE__ |> :global.whereis_name |> Exredis.query ["GET", key] do
+  def handle_call({:get, key, default}, _from, pid) do
+    res = case pid |> Exredis.query ["GET", key] do
       :undefined -> default
-      res        -> res
+      val        -> val
     end
+    {:reply, res, pid}
   end
 
-  def set(key, value) do
-    __MODULE__
-    |> :global.whereis_name
-    |> Exredis.query ["SET", key, value]
+  def handle_cast({:set, key, val}, pid) do
+    pid |> Exredis.query ["SET", key, val]
+    {:noreply, pid}
   end
-
-  #def keys do
-  #  __MODULE__
-  #  |> :global.whereis_name
-  #  |> Exredis.query ["KEYS", "*"]
-  #end
 end

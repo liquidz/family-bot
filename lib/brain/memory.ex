@@ -1,23 +1,15 @@
 defmodule Brain.Memory do
-  def start_link do
-    Agent.start_link(fn -> HashDict.new end, name: __MODULE__)
+  use GenServer
+
+  def start_link(_ \\ nil) do
+    GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
   end
 
-  def get(key, default) do
-    Agent.get(__MODULE__, fn m ->
-      Dict.get(m, key, default)
-    end)
+  def handle_call({:get, key, default}, _from, state) do
+    {:reply, Dict.get(state, key, default), state}
   end
 
-  def set(key, value) do
-    Agent.update(__MODULE__, fn m ->
-      Dict.put(m, key, value)
-    end)
+  def handle_cast({:set, key, val}, state) do
+    {:noreply, Dict.put(state, key, val)}
   end
-
-  #def keys do
-  #  Agent.get(__MODULE__, fn m ->
-  #    Dict.keys(m)
-  #  end)
-  #end
 end

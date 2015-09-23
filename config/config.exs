@@ -21,7 +21,9 @@ config :Stamp,
   term:     [""]
 
 config :Slack,
+  bots:        ~w{ Panpan },
   panpan_icon: "https://dl.dropboxusercontent.com/u/14918307/slack_icon/panpan.jpg",
+  paiman_icon: "https://dl.dropboxusercontent.com/u/14918307/slack_icon/paiman.png",
   vim_icon:    "https://dl.dropboxusercontent.com/u/14918307/slack_icon/vimgirl.jpg",
   kuma_icon:   "https://dl.dropboxusercontent.com/u/14918307/slack_icon/kuma.png"
 
