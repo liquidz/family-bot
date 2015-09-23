@@ -34,6 +34,7 @@ defmodule Family.Mixfile do
       {:exredis,   ">= 0.2.0"},
       {:poison,    "~> 1.5"},
       {:slack,     "~> 0.2.0"},
+      {:floki,     "~> 0.4"},
       {:websocket_client, git: "https://github.com/jeremyong/websocket_client"},
     ]
   end

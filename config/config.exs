@@ -30,4 +30,12 @@ config :Slack,
   kuma_icon:   "https://dl.dropboxusercontent.com/u/14918307/slack_icon/kuma.png"
 
 config :Family,
-  test: "test config"
+  test: "test config",
+  help: """
+  メモ (...)       - メモする
+  メモ 削除/消して - メモを削除
+  alc (...)        - 英辞郎で検索
+  @panpan: ping    - 生存確認
+  @panpan: date    - 日時を表示
+  @panpan: help    - ヘルプを表示
+  """

@@ -8,6 +8,8 @@ defmodule Bot.Panpan do
   end
 
   def hear("メモ", message, slack), do: Bot.Panpan.Memo.process(message, slack)
+  def hear("alc", message, slack), do: Bot.Panpan.Alc.process(message, slack)
+
   def hear(text, message, slack) do
     cond do
       # スタンプ
@@ -35,6 +37,14 @@ defmodule Bot.Panpan do
     Date.local
     |> DateFormat.format!("%Y/%m/%d %H:%M:%S", :strftime)
     |> send_message(message.channel, slack)
+  end
+  def respond("help", message, slack) do
+    help = Application.get_env(:Family, :help) |> String.strip
+    send_message("""
+    ```
+    #{help}
+    ```
+    """, message.channel, slack)
   end
 
   def respond(text, message, slack) do
