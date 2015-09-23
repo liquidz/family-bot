@@ -20,11 +20,17 @@ defmodule Bot.Panpan do
       message.text =~ ~r/(飛べる|跳べる)/    -> stamp(:toberu, message, slack)
       message.text =~ ~r/(！！|!!)/          -> stamp(:nandatte, message, slack)
       message.text =~ ~r/(イラ|ｲﾗ)/          -> stamp(:ira, message, slack)
-      message.text =~ ~r/おやすみ/           -> stamp(:oyasumi, message, slack)
+      #message.text =~ ~r/おやすみ/           -> stamp(:oyasumi, message, slack)
       message.text =~ ~r/(さむい|寒い)/      -> stamp(:samui, message, slack)
 
       message.text =~ ~r/(ぱんだ|パンダ)/ ->
         send_message("<@#{message.user}> よんだ？", message.channel, slack)
+      message.text =~ ~r/パンパン/ ->
+        cond do
+          message.text =~ ~r/おやすみ/ ->
+            send_message("<@#{message.user}> おやしゅみ", message.channel, slack)
+          true -> nil
+        end
       true ->
         nil
     end
