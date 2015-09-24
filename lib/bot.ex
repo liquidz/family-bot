@@ -3,10 +3,12 @@ defmodule Bot do
 
   def handle_message(message = %{type: "message", text: _}, slack, state = [mod]) do
     trigger = String.split(message.text, ~r{( |　)+}, parts: 2)
-    case String.starts_with?(message.text, "<@#{slack.me.id}>: ") do
-      true  -> :"Elixir.Bot.#{mod}".respond(Enum.at(trigger, 1), message, slack)
-      false -> :"Elixir.Bot.#{mod}".hear(hd(trigger), message, slack)
+    f = if String.starts_with?(message.text, "<@#{slack.me.id}>: ") do
+      fn -> :"Elixir.Bot.#{mod}".respond(Enum.at(trigger, 1), message, slack) end
+    else
+      fn -> :"Elixir.Bot.#{mod}".hear(hd(trigger), message, slack) end
     end
+    Task.start(f)
     {:ok, state}
   end
 

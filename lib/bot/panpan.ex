@@ -49,6 +49,13 @@ defmodule Bot.Panpan do
     |> DateFormat.format!("%Y/%m/%d %H:%M:%S", :strftime)
     |> send_message(message.channel, slack)
   end
+  def respond("おそい", message, slack) do
+    ~w{ お く れ て 聞 こ え る よ }
+    |> Enum.each(fn c ->
+      send_message(c, message.channel, slack)
+      :timer.sleep(1000)
+    end)
+  end
   def respond("help", message, slack) do
     help = Application.get_env(:Family, :help) |> String.strip
     send_message("""
