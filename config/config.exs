@@ -4,6 +4,10 @@ config :quantum,
   cron: [
     "0 10,13,16,19,22 * * *": {Vim.Version, :check_latest},
     "30 7,12,18,20 * * *":    {Bot.Panpan.Memo, :reminder},
+    "30 7 * * Mon":           {Trash.Week, :bin_kan},
+    "30 7 * * Tue,Fri":       {Trash.Week, :moyasu},
+    "30 7 * * Wed":           {Trash.Week, :pura},
+    "30 7 * * Thu":           {Trash.Week, :moyasanai},
     "28 16 * * Sat": fn -> Bot.Panpan.reminder("青空レストランはじまるよ") end,
     "58 18 * * Sun": fn -> Bot.Panpan.reminder("鉄腕DASHはじまるよ") end
   ],
@@ -27,6 +31,7 @@ config :Slack,
   panpan_icon: "https://dl.dropboxusercontent.com/u/14918307/slack_icon/panpan.jpg",
   paiman_icon: "https://dl.dropboxusercontent.com/u/14918307/slack_icon/paiman.png",
   vim_icon:    "https://dl.dropboxusercontent.com/u/14918307/slack_icon/vimgirl.jpg",
+  gomi_icon:   "https://dl.dropboxusercontent.com/u/14918307/slack_icon/gomi.jpg",
   kuma_icon:   "https://dl.dropboxusercontent.com/u/14918307/slack_icon/kuma.png"
 
 config :Family,

@@ -34,6 +34,5 @@ defmodule Bot do
     } |> Poison.encode!
 
     HTTPoison.post(url, json)
-    |> IO.inspect
   end
 end
