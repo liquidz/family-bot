@@ -28,7 +28,12 @@ defmodule Bot.Panpan do
       message.text =~ ~r/パンパン/ ->
         cond do
           message.text =~ ~r/おやすみ/ ->
-            send_message("<@#{message.user}> おやしゅみ", message.channel, slack)
+            t = case message.user do
+              "U02C1CPES" -> "おやしゅみパパ :sleepy:"
+              "U0B40R9B6" -> "おやしゅみママ :kissing_closed_eyes: めぐむたん :kissing_closed_eyes:"
+              _           -> "おやしゅみ"
+            end
+            send_message("<@#{message.user}> #{t}", message.channel, slack)
           true -> nil
         end
       true ->
