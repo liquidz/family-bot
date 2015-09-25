@@ -37,4 +37,23 @@ defmodule Vim.Version do
       {:error, _, _} -> nil
     end
   end
+
+  def check_now do
+    text = case latest do
+      {:ok, patch, content} ->
+        """
+        ```
+        Brain : [#{Brain.get(@patch_key, "")}]
+        Latest: [#{patch}]
+        ---
+        #{content}
+        ```
+        """
+      {:error, _, _} ->
+        "Oops"
+    end
+
+    Bot.incoming(text, "dev", "vim", Env.get("Slack_vim_icon"))
+    nil
+  end
 end

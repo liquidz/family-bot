@@ -65,19 +65,26 @@ defmodule Bot.Panpan do
     """, message.channel, slack)
   end
 
-  def respond(text, message, slack) do
-    cond do
-      m = Regex.run(~r/^set (.+?) (.+?)$/, text) ->
-        [_, key, val] = m
-        Brain.set(key, val)
-        send_message("set: #{key} => #{val}", message.channel, slack)
-      m = Regex.run(~r/^get (.+?)$/, text) ->
-        [_, key] = m
-        res = Brain.get(key, "nil")
-        send_message("get: #{key} => #{res}", message.channel, slack)
-      true -> nil
+  def respond("vim", message, slack) do
+    case String.split(message.text, ~r/ +/, parts: 3) do
+      [_, _vim, "check"] -> Vim.Version.check_now
+      _                  -> nil
     end
   end
+
+  def respond("set", message, slack) do
+    [_user, _set, k, v] = String.split(message.text, ~r/ +/, parts: 4)
+    Brain.set(k, v)
+    send_message("set: #{k} => #{v}", message.channel, slack)
+  end
+
+  def respond("get", message, slack) do
+    [_user, _get, k] = String.split(message.text, ~r/ +/, parts: 3)
+    res = Brain.get(k, "nil")
+    send_message("get: #{k} => #{res}", message.channel, slack)
+  end
+
+  def respond(_, _, _), do: nil
 
   def reminder(msg) do
     Bot.incoming(msg, "general", "panpan", Env.get("Slack_panpan_icon"))

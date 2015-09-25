@@ -1,13 +1,19 @@
 defmodule Bot do
   use Slack
 
+  @space_regex ~r/( |　)+/
+
   def handle_message(message = %{type: "message", text: _}, slack, state = [mod]) do
-    trigger = String.split(message.text, ~r{( |　)+}, parts: 2)
-    f = if String.starts_with?(message.text, "<@#{slack.me.id}>: ") do
-      fn -> :"Elixir.Bot.#{mod}".respond(Enum.at(trigger, 1), message, slack) end
+    prefixes = ["<@#{slack.me.id}>: ", "<@#{slack.me.id}> "]
+
+    f = if String.starts_with?(message.text, prefixes) do
+      [_user, cmd | _] = String.split(message.text, @space_regex, parts: 3)
+      fn -> :"Elixir.Bot.#{mod}".respond(cmd, message, slack) end
     else
-      fn -> :"Elixir.Bot.#{mod}".hear(hd(trigger), message, slack) end
+      [cmd | _] = String.split(message.text, @space_regex, parts: 2)
+      fn -> :"Elixir.Bot.#{mod}".hear(cmd, message, slack) end
     end
+
     Task.start(f)
     {:ok, state}
   end
