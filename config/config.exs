@@ -8,7 +8,7 @@ config :quantum,
     "30 7 * * Tue,Fri":       {Trash.Week, :moyasu},
     "30 7 * * Wed":           {Trash.Week, :pura},
     "30 7 * * Thu":           {Trash.Week, :moyasanai},
-    "28 16 * * Sat": fn -> Bot.Panpan.reminder("青空レストランはじまるよ") end,
+    "28 18 * * Sat": fn -> Bot.Panpan.reminder("青空レストランはじまるよ") end,
     "58 18 * * Sun": fn -> Bot.Panpan.reminder("鉄腕DASHはじまるよ") end
   ],
   timezone: :local
