@@ -25,7 +25,8 @@ defmodule Family.Supervisor do
 
     if production? do
       names = Application.get_env(:Slack, :bots) |> Enum.join(", ")
-      Bot.incoming("#{names} がアップデートされたみたいですよ", "general", "天の声", Env.get("Slack_kuma_icon"))
+      #Bot.incoming("#{names} がアップデートされたみたいですよ", "general", "天の声", Env.get("Slack_kuma_icon"))
+      Bot.incoming("#{names} がアップデートされたみたいですよ", "dev", "天の声", Env.get("Slack_kuma_icon"))
     end
 
     res
