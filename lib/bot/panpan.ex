@@ -49,6 +49,10 @@ defmodule Bot.Panpan do
     |> DateFormat.format!("%Y/%m/%d %H:%M:%S", :strftime)
     |> send_message(message.channel, slack)
   end
+
+  def respond("単語", m, s), do: Bot.Panpan.English.check_answer(m, s)
+  def respond("降参", m, s), do: Bot.Panpan.English.give_up(m, s)
+
   def respond("おそい", message, slack) do
     ~w{ お く れ て 聞 こ え る よ }
     |> Enum.each(fn c ->
@@ -65,11 +69,12 @@ defmodule Bot.Panpan do
     """, message.channel, slack)
   end
 
-  def respond("vim", message, slack) do
-    case String.split(message.text, ~r/ +/, parts: 3) do
-      [_, _vim, "test"]   -> Vim.Version.check_now
-      [_, _vim, "latest"] -> Vim.Version.check_latest
-      _                   -> nil
+  def respond("debug", message, slack) do
+    case message.text |> String.strip |> String.split(~r/ +/, parts: 3) do
+      [_, _, "vim test"]   -> Vim.Version.check_now
+      [_, _, "vim latest"] -> Vim.Version.check_latest
+      [_, _, "english"]    -> Bot.Panpan.English.question
+      _                    -> nil
     end
   end
 
@@ -85,13 +90,16 @@ defmodule Bot.Panpan do
     send_message("get: #{k} => #{res}", message.channel, slack)
   end
 
-  def respond(_, _, _), do: nil
+  def respond(unknown, message, _) do
+    IO.puts("command: [#{unknown}], message: [#{message.text}]")
+  end
 
   def reminder(msg) do
     Bot.incoming(msg, "general", "panpan", Env.get("Slack_panpan_icon"))
   end
 
   defp stamp(stampId, message, slack) do
+    :random.seed(:os.timestamp)
     now   = Date.local |> DateFormat.format!("%Y%m%d%H%M%S", :strftime)
     base  = Application.get_env(:Stamp, :base_url)
     image = Application.get_env(:Stamp, stampId) |> Enum.shuffle |> hd

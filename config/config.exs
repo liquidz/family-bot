@@ -4,10 +4,15 @@ config :quantum,
   cron: [
     "0 10,13,16,19,22 * * *": {Vim.Version, :check_latest},
     "30 7,12,18,20 * * *":    {Bot.Panpan.Memo, :reminder},
+
+    "15 7 * * *":             {Bot.Panpan.English, :question},
+    "0 12,18 * * *":          {Bot.Panpan.English, :question_reminder},
+
     "30 7 * * Mon":           {Trash.Week, :bin_kan},
     "30 7 * * Tue,Fri":       {Trash.Week, :moyasu},
     "30 7 * * Wed":           {Trash.Week, :pura},
     "30 7 * * Thu":           {Trash.Week, :moyasanai},
+
     "28 18 * * Sat": fn -> Bot.Panpan.reminder("青空レストランはじまるよ") end,
     "58 18 * * Sun": fn -> Bot.Panpan.reminder("鉄腕DASHはじまるよ") end
   ],
@@ -40,9 +45,13 @@ config :Family,
   メモ (...)          - メモする
   メモ 削除/消して    - メモを削除
   alc (...)           - 英辞郎で検索
+  @panpan: 単語 (...) - 今日の英単語の回答
+  @panpan: 降参       - 今日の英単語問題に降参
   @panpan: ping       - 生存確認
   @panpan: date       - 日時を表示
-  @panpan: vim latest - Vim バージョンチェック
-  @panpan: vim test   - Vim バージョンチェックのテスト
   @panpan: help       - ヘルプを表示
+
+  @panpan: debug vim latest - Vim バージョンチェック
+  @panpan: debug vim test   - Vim バージョンチェックのテスト
+  @panpan: debug english    - 今日の英単語
   """
