@@ -58,11 +58,11 @@ defmodule Bot.Panpan.English do
 
   def check_answer(message, slack) do
     case Brain.get(@question_key, "") do
-      ""         -> "問題が取得できなかった :sweat:"
-      @answered  -> "もう回答済みだよ :grin:"
-      word       ->
+      ""        -> "問題が取得できなかった :sweat:"
+      @answered -> "もう回答済みだよ :grin:"
+      word      ->
         if message.text =~ Dict.get(@words, word) do
-          Brain.set(@question_key, "answered")
+          Brain.set(@question_key, @answered)
           "<@#{message.user}> 正解 :tada:"
         else
           "<@#{message.user}> ぶぶー :stuck_out_tongue_closed_eyes:"
@@ -72,24 +72,42 @@ defmodule Bot.Panpan.English do
   end
 
   def give_up(message, slack) do
-    case Brain.get(@question_key, "") do
-      ""         -> "問題が取得できなかった :sweat:"
-      @answered  -> "もう回答済みだよ :grin:"
-      word       ->
-        answer = "#{inspect Dict.get(@words, word)}"
-        |> String.replace("~r", "")
-        |> String.replace("/", "")
-
-        Brain.set(@question_key, "answered")
-
-        "<@#{message.user}> 正解は `#{answer}` だよ :stuck_out_tongue_winking_eye:"
+    case get_answer_text do
+      {"", ""}        -> "問題が取得できなかった :sweat:"
+      {@answered, ""} -> "もう回答済みだよ :grin:"
+      {_word, answer} ->
+        Brain.set(@question_key, @answered)
+        "<@#{message.user}>: 正解は `#{answer}` だよ :stuck_out_tongue_winking_eye:"
     end
     |> send_message(message.channel, slack)
+  end
+
+  def time_up do
+    case get_answer_text do
+      {"", ""}        -> nil
+      {@answered, ""} -> nil
+      {word, answer}  ->
+        Brain.set(@question_key, @answered)
+        "今日の英単語: `#{word}` の意味は `#{answer}` でした :stuck_out_tongue_winking_eye:"
+        |> Bot.incoming(@channel, "panpan", Env.get("Slack_panpan_icon"))
+    end
   end
 
   defp random_word do
     :random.seed(:os.timestamp)
     {word, _} = @words |> Enum.shuffle |> hd
     word
+  end
+
+  defp get_answer_text do
+    case Brain.get(@question_key, "") do
+      ""         -> {"", ""}
+      @answered  -> {@answered, ""}
+      word       ->
+        answer = "#{inspect Dict.get(@words, word)}"
+        |> String.replace("~r", "")
+        |> String.replace("/", "")
+        {word, answer}
+    end
   end
 end

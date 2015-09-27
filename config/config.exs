@@ -7,6 +7,7 @@ config :quantum,
 
     "15 7 * * *":             {Bot.Panpan.English, :question},
     "0 12,18 * * *":          {Bot.Panpan.English, :question_reminder},
+    "0 22 * * *":             {Bot.Panpan.English, :time_up},
 
     "30 7 * * Mon":           {Trash.Week, :bin_kan},
     "30 7 * * Tue,Fri":       {Trash.Week, :moyasu},
