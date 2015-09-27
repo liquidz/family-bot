@@ -30,9 +30,17 @@ defmodule Vim.Version do
   def check_latest do
     case latest do
       {:ok, patch, content} ->
-        if Brain.get(@patch_key, "") != patch do
+        brain_patch = Brain.get(@patch_key, "")
+        if brain_patch != patch do
           Brain.set(@patch_key, patch)
-          Bot.incoming("#{patch}\n#{content}", "dev", "vim", Env.get("Slack_vim_icon"))
+          """
+          [#{brain_patch}] -> [#{patch}]
+          ```
+          #{content}
+          ```
+          """
+          |> String.strip
+          |> Bot.imcoming("dev", "vim", Env.get("Slack_vim_icon"))
         end
       {:error, _, _} -> nil
     end

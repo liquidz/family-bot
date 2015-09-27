@@ -37,11 +37,12 @@ config :Slack,
 config :Family,
   test: "test config",
   help: """
-  メモ (...)         - メモする
-  メモ 削除/消して   - メモを削除
-  alc (...)          - 英辞郎で検索
-  @panpan: ping      - 生存確認
-  @panpan: date      - 日時を表示
-  @panpan: vim check - 日時を表示
-  @panpan: help      - ヘルプを表示
+  メモ (...)          - メモする
+  メモ 削除/消して    - メモを削除
+  alc (...)           - 英辞郎で検索
+  @panpan: ping       - 生存確認
+  @panpan: date       - 日時を表示
+  @panpan: vim latest - Vim バージョンチェック
+  @panpan: vim test   - Vim バージョンチェックのテスト
+  @panpan: help       - ヘルプを表示
   """

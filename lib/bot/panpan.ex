@@ -67,8 +67,9 @@ defmodule Bot.Panpan do
 
   def respond("vim", message, slack) do
     case String.split(message.text, ~r/ +/, parts: 3) do
-      [_, _vim, "check"] -> Vim.Version.check_now
-      _                  -> nil
+      [_, _vim, "test"]   -> Vim.Version.check_now
+      [_, _vim, "latest"] -> Vim.Version.check_latest
+      _                   -> nil
     end
   end
 
