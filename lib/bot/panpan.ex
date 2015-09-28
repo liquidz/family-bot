@@ -52,9 +52,6 @@ defmodule Bot.Panpan do
     |> send_message(message.channel, slack)
   end
 
-  def respond("単語", m, s), do: Bot.Panpan.English.check_answer(m, s)
-  def respond("降参", m, s), do: Bot.Panpan.English.give_up(m, s)
-
   def respond("おそい", message, slack) do
     ~w{ お く れ て 聞 こ え る よ }
     |> Enum.each(fn c ->

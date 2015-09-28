@@ -1,6 +1,8 @@
 defmodule Family.Supervisor do
   use Supervisor
 
+  @channel "general"
+
   def start_link(_arg) do
     {:ok, sup} = Supervisor.start_link(__MODULE__, nil)
 
@@ -25,8 +27,14 @@ defmodule Family.Supervisor do
 
     if production? do
       names = Application.get_env(:Slack, :bots) |> Enum.join(", ")
-      Bot.incoming("#{names} がアップデートされたみたいですよ", "general", "天の声", Env.get("Slack_kuma_icon"))
-      #Bot.incoming("#{names} がアップデートされたみたいですよ", "dev", "天の声", Env.get("Slack_kuma_icon"))
+      case 1..10 |> Enum.shuffle |> hd |> rem(2) do
+        0 ->
+          "#{names} がアップデートされたみたいですよ"
+          |> Bot.incoming(@channel, "天の声", Env.get("Slack_kuma_icon"))
+        _ ->
+          "ぱわーあっぷ :muscle:"
+          |> Bot.incoming(@channel, "panpan", Env.get("Slack_panpan_icon"))
+      end
     end
 
     res
