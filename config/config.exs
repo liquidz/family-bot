@@ -5,9 +5,9 @@ config :quantum,
     "0 10,13,16,19,22 * * *": {Vim.Version, :check_latest},
     "30 7,12,18,20 * * *":    {Bot.Panpan.Memo, :reminder},
 
-    "15 7 * * *":             {Bot.Panpan.English, :question},
-    "0 12,18 * * *":          {Bot.Panpan.English, :question_reminder},
-    "0 22 * * *":             {Bot.Panpan.English, :time_up},
+    "15 7 * * *":  fn -> Bot.Panpan.English.question("朝") end,
+    "15 12 * * *": fn -> Bot.Panpan.English.question("昼") end,
+    "15 18 * * *": fn -> Bot.Panpan.English.question("夜") end,
 
     "30 7 * * Mon":           {Trash.Week, :bin_kan},
     "30 7 * * Tue,Fri":       {Trash.Week, :moyasu},

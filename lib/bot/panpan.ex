@@ -75,7 +75,7 @@ defmodule Bot.Panpan do
     case message.text |> String.strip |> String.split(~r/ +/, parts: 3) do
       [_, _, "vim test"]   -> Vim.Version.check_now
       [_, _, "vim latest"] -> Vim.Version.check_latest
-      [_, _, "english"]    -> Bot.Panpan.English.question
+      [_, _, "english"]    -> Bot.Panpan.English.question("気まぐれ")
       _                    -> nil
     end
   end
