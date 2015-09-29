@@ -9,10 +9,12 @@ config :quantum,
     "15 12 * * *": fn -> Bot.Panpan.English.question("昼") end,
     "15 18 * * *": fn -> Bot.Panpan.English.question("夜") end,
 
-    "30 7 * * Mon":           {Trash.Week, :bin_kan},
-    "30 7 * * Tue,Fri":       {Trash.Week, :moyasu},
-    "30 7 * * Wed":           {Trash.Week, :pura},
-    "30 7 * * Thu":           {Trash.Week, :moyasanai},
+    "30 7 * * Mon":     {Trash.Week, :bin_kan},
+    "30 7 * * Tue,Fri": {Trash.Week, :moyasu},
+    "30 7 * * Wed":     {Trash.Week, :pura},
+    "30 7 * * Thu":     {Trash.Week, :moyasanai},
+
+    "0 21 * * Thu": {Weather.Tomorrow, :notice_weather},
 
     "28 18 * * Sat": fn -> Bot.Panpan.reminder("青空レストランはじまるよ") end,
     "58 18 * * Sun": fn -> Bot.Panpan.reminder("鉄腕DASHはじまるよ") end
@@ -38,6 +40,7 @@ config :Slack,
   paiman_icon: "https://dl.dropboxusercontent.com/u/14918307/slack_icon/paiman.png",
   vim_icon:    "https://dl.dropboxusercontent.com/u/14918307/slack_icon/vimgirl.jpg",
   gomi_icon:   "https://dl.dropboxusercontent.com/u/14918307/slack_icon/gomi.jpg",
+  nani_icon:   "https://dl.dropboxusercontent.com/u/14918307/slack_icon/nani.png",
   kuma_icon:   "https://dl.dropboxusercontent.com/u/14918307/slack_icon/kuma.png"
 
 config :Family,

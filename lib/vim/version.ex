@@ -40,7 +40,7 @@ defmodule Vim.Version do
           ```
           """
           |> String.strip
-          |> Bot.imcoming("dev", "vim", Env.get("Slack_vim_icon"))
+          |> Bot.incoming("dev", "vim", Env.get("Slack_vim_icon"))
         end
       {:error, _, _} -> nil
     end
