@@ -13,7 +13,8 @@ defmodule Bot.Panpan do
   def hear(text, message, slack) do
     cond do
       # スタンプ
-      text =~ ~r/(・・・|\.\.\.)/    -> stamp(:dot, message, slack)
+      text =~ ~r/(・・・|\.\.\.)/            -> stamp(:dot, message, slack)
+      text =~ ~r/(ムッ|ﾑｯ)/                  -> stamp(:mu, message, slack)
       message.text =~ ~r/(泣いた|ぶわ|ブワ)/ -> stamp(:buwa, message, slack)
       message.text =~ ~r/(風呂|おふろ)/      -> stamp(:ohuro, message, slack)
       message.text =~ ~r/(飛べる|跳べる)/    -> stamp(:toberu, message, slack)
