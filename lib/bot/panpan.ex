@@ -36,6 +36,10 @@ defmodule Bot.Panpan do
             send_message("<@#{message.user}> #{t}", message.channel, slack)
           message.text =~ ~r/(可哀想|かわいそう)/ ->
             send_message("<@#{message.user}> :sob:", message.channel, slack)
+          message.text =~ ~r/(ひどい|嫌い)/ ->
+            send_message("<@#{message.user}> :perry_sup:", message.channel, slack)
+          message.text =~ ~r/(謝り|あやまり)なさい/ ->
+            send_message("<@#{message.user}> ごめんなちゃい", message.channel, slack)
           true -> nil
         end
       true ->
